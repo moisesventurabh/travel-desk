@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9px;
+  }
+}
+
+@layer components {
+  /* Input base */
+  .input-base {
+    @apply w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl
+           transition-all duration-150 outline-none placeholder:text-slate-300
+           focus:bg-white focus:border-brand-400 focus:ring-2 focus:ring-brand-500/10;
+  }
+
+  .input-base.error {
+    @apply border-red-400 focus:border-red-400 focus:ring-red-500/10;
+  }
+
+  /* Select base */
+  .select-base {
+    @apply input-base cursor-pointer appearance-none pr-8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%2394a3b8' stroke-width='1.5' d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold;
+  }
+  .badge-solicitado {
+    @apply badge bg-amber-50 text-amber-700 ring-1 ring-amber-200;
+  }
+  .badge-aprovado {
+    @apply badge bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200;
+  }
+  .badge-cancelado {
+    @apply badge bg-red-50 text-red-700 ring-1 ring-red-200;
+  }
+
+  /* Card */
+  .card {
+    @apply bg-white rounded-2xl border border-slate-100 shadow-card;
+  }
+
+  /* Btn */
+  .btn {
+    @apply inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold
+           rounded-xl transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-500 hover:bg-brand-600 text-white shadow-sm;
+  }
+  .btn-secondary {
+    @apply btn bg-white hover:bg-slate-50 text-slate-600 border border-slate-200;
+  }
+  .btn-danger {
+    @apply btn bg-red-50 hover:bg-red-500 text-red-600 hover:text-white border border-red-200;
+  }
+  .btn-success {
+    @apply btn bg-emerald-500 hover:bg-emerald-600 text-white shadow-sm;
+  }
+
+  /* Form label */
+  .form-label {
+    @apply block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5;
+  }
+
+  /* Nav item */
+  .nav-item {
+    @apply flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium
+           text-slate-400 hover:bg-slate-800 hover:text-white transition-all duration-150 cursor-pointer;
+  }
+  .nav-item.active {
+    @apply bg-brand-500/15 text-brand-400;
+  }
+
+  /* Sub nav item */
+  .sub-item {
+    @apply flex items-center gap-2 pl-9 pr-3 py-2 text-sm text-slate-500
+           hover:text-slate-200 rounded-lg transition-all duration-150 cursor-pointer
+           before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-slate-700 before:flex-shrink-0;
+  }
+  .sub-item.active {
+    @apply text-brand-400 before:bg-brand-500;
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply card p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-card-hover;
+  }
+
+  /* Table row */
+  .trow {
+    @apply border-b border-slate-50 transition-colors duration-100 hover:bg-slate-50/70;
+  }
+}

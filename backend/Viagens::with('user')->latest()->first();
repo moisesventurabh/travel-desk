@@ -1,0 +1,15 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7451
+    [34mall[39m: [
+      [34;4mApp\Models\Viagens[39;24m {#7491
+        [34mid[39m: [35m6[39m,
+        [34muser_id[39m: [35m2[39m,
+        [34msolicitante[39m: [32m"[39m[32mCamilla Nicolau[39m[32m"[39m,
+        [34mdestino[39m: [32m"[39m[32mRoma, Itália[39m[32m"[39m,
+        [34mdata_ida[39m: [32m"[39m[32m2026-07-10[39m[32m"[39m,
+        [34mdata_volta[39m: [32m"[39m[32m2026-07-20[39m[32m"[39m,
+        [34mstatus[39m: [32m"[39m[32msolicitado[39m[32m"[39m,
+        [34mcreated_at[39m: [32m"[39m[32m2026-03-30 05:31:48[39m[32m"[39m,
+        [34mupdated_at[39m: [32m"[39m[32m2026-03-30 05:31:48[39m[32m"[39m,
+      },
+    ],
+  }

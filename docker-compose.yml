@@ -1,0 +1,59 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app.Dockerfile
+    container_name: travel-api
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    networks:
+      - travel-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: travel-nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www
+      - ./docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - travel-network
+
+  db:
+    image: mysql:8.0
+    container_name: travel-db
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: travel_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: userpass
+      MYSQL_USER: user
+    ports:
+      - "3306:3306"
+    networks:
+      - travel-network
+
+  frontend:
+    image: node:20-alpine
+    container_name: travel-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    command: npm run dev -- --host
+    stdin_open: true
+    tty: true
+    networks:
+      - travel-network
+
+networks:
+  travel-network:
+    driver: bridge
+
+volumes:
+  db_data:
