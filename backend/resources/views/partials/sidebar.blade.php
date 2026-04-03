@@ -40,15 +40,23 @@
   </nav>
 
   <!-- User -->
+@auth
+    @php
+        // Lógica para pegar as iniciais no próprio Blade
+        $name = auth()->user()->name;
+        $words = explode(' ', $name);
+        $initials = strtoupper(substr($words[0], 0, 1) . (count($words) > 1 ? substr(end($words), 0, 1) : ''));
+    @endphp
+
   <div class="border-t border-slate-800 p-4">
     <div class="flex items-center gap-2.5">
       <div class="relative">
-        <div class="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AU</div>
+        <div class="w-8 h-8 rounded-full bg-sky-500 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">{{ $initials }}</div>
         <span class="absolute bottom-0 right-0 w-2 h-2 bg-emerald-400 rounded-full ring-2 ring-slate-900 pulse"></span>
       </div>
       <div class="flex-1 min-w-0">
-        <p class="text-xs font-semibold text-white truncate">Admin User</p>
-        <p class="text-[10px] text-slate-500 truncate">admin@empresa.com.br</p>
+        <p class="text-xs font-semibold text-white truncate">{{ auth()->user()->name }}</p>
+        <p class="text-[10px] text-slate-500 truncate">{{ auth()->user()->email }}</p>
       </div>
       <form method="POST" action="{{ route('logout') }}">
         @csrf
@@ -58,4 +66,5 @@
       </form>
     </div>
   </div>
+@endauth
 </aside>

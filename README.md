@@ -173,9 +173,24 @@ docker-compose up -d --build
 docker exec -it travel-api bash
 
 composer install
-php artisan key:generate
-php artisan jwt:secret
-php artisan migrate --seed
+
+//Inicia o projeto - Atencao ao .env
+docker exec -it travel-api composer install
+docker exec -it travel-api php artisan key:generate
+
+//Token da API JWT para login no VUE
+docker exec -it travel-api php artisan jwt:secret
+
+docker exec -it travel-api php artisan config:clear
+
+//Cria o banco de dados, insere os usuário com Seeder e cria viagens falsas com Factory
+docker exec -it travel-api php artisan migrate --seed
+
+usuários padrao:
+admin@test.com | senha123
+user@test.com  | senha123
+
+
 ```
 
 ---

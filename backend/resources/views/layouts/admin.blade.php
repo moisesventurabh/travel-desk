@@ -407,8 +407,15 @@ function clearFilters() {
 
 // Filtros e busca (já existentes no seu código)
 function applyFilters() {
+
+    const searchTerm = document.getElementById('filter-search').value;
+
+    if (searchTerm.length > 0 && searchTerm.length < 3) {
+        return; 
+    }
+
     const filters = {
-        search: document.getElementById('filter-search').value,
+        search: searchTerm,
         status: document.getElementById('filter-status').value,
         desde: document.getElementById('filter-de').value,
         ate: document.getElementById('filter-ate').value

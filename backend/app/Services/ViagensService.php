@@ -26,20 +26,21 @@ class ViagensService
 
         // Filtro de Texto no dasboard
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('solicitante', 'like', "%{$request->search}%")
-                  ->orWhere('destino', 'like', "%{$request->search}%")
-                  ->orWhere('origem', 'like', "%{$request->search}%")
-                  ->orWhere('id', 'like', "%{$request->search}%");
+            $search = $request->input('search');
+
+            $query->where(function($q) use ($search) {
+                $q->where('id', $search)
+                ->orWhereRaw("MATCH(solicitante, origem, destino) AGAINST(? IN BOOLEAN MODE)", ["{$search}*"]);
             });
         }
 
         // Filtro de Status e Datas
-        $query->when($request->status, fn($q) => $q->where('status', $request->status))
-              ->when($request->desde, fn($q) => $q->whereDate('data_ida', '>=', $request->desde))
-              ->when($request->ate, fn($q) => $q->whereDate('data_ida', '<=', $request->ate));
+        $query->when($request->filled('status'), fn($q) => $q->where('status', $request->status))
+        ->when($request->filled('desde'), fn($q) => $q->whereDate('data_volta', '>=', $request->desde))
+        ->when($request->filled('ate'), fn($q) => $q->whereDate('data_ida', '<=', $request->ate));
+        
+        return $query->orderBy('data_ida', 'asc')->paginate($perPage);
 
-        return $query->latest()->paginate($perPage);
     }
 
     public function getStats()
