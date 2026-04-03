@@ -59,28 +59,25 @@ class ViagensController extends Controller
     public function updateStatus(Request $request, $id)
     {
         try {
-            $viagem = Viagens::findOrFail($id);
-            $statusAnterior = $viagem->status;
+            $statusNoBanco = \DB::table('viagens')->where('id', $id)->value('status');
             $novoStatus = $request->status;
 
             $viagemAtualizada = $this->viagensService->atualizarStatus($id, $novoStatus);
 
-            //if ($statusAnterior !== $novoStatus) {
+            if ($statusNoBanco !== $novoStatus) {
                 if (in_array($novoStatus, ['aprovado', 'cancelado']) && $viagemAtualizada->user) {
                     Mail::to($viagemAtualizada->user->email)->send(
                         new StatusViagemAlterado($viagemAtualizada, $request->observacao)
                     );
                 }
-            //}
+            }
 
             return response()->json(['message' => 'Status atualizado com sucesso!']);
 
         } catch (\Exception $e) {
-            $statusCode = $e->getCode() ?: 403;
-            return response()->json(['error' => $e->getMessage()], $statusCode);
+            return response()->json(['error' => $e->getMessage()], $e->getCode() ?: 403);
         }
     }
-
 
     public function destroy($id)
     {
