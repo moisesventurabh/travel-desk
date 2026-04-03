@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Viagens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ViagensService
 {
@@ -90,6 +91,13 @@ class ViagensService
             ->latest()
             ->take($limit)
             ->get();
+    }
+
+    public function getAllViagens()
+    {
+        return Cache::remember('all_viagens_cache', now()->addMinutes(7), function () {
+            return Viagens::with('user')->get();
+        });
     }
 
 }

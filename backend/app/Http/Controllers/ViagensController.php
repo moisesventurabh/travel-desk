@@ -8,6 +8,7 @@ use App\Services\ViagensService;
 use App\Mail\StatusViagemAlterado;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class ViagensController extends Controller
 {
@@ -50,6 +51,7 @@ class ViagensController extends Controller
             'user_id' => Auth::id(),
             'status'  => 'solicitado'
         ]));
+        Cache::forget('all_viagens_cache');
 
         return response()->json($viagem, 201);
     }
@@ -63,6 +65,8 @@ class ViagensController extends Controller
             $novoStatus = $request->status;
 
             $viagemAtualizada = $this->viagensService->atualizarStatus($id, $novoStatus);
+            
+            Cache::forget('all_viagens_cache');
 
             if ($statusNoBanco !== $novoStatus) {
                 if (in_array($novoStatus, ['aprovado', 'cancelado']) && $viagemAtualizada->user) {
@@ -83,6 +87,7 @@ class ViagensController extends Controller
     {
         try {
             $this->viagensService->softDelete($id);
+            Cache::forget('all_viagens_cache');
             return response()->json(['message' => 'Registro removido'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
